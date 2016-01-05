@@ -30,6 +30,12 @@ If set to true, a vhosts file, managed by this role's variables (see below), wil
 
 On Debian/Ubuntu, a default virtualhost is included in Apache's configuration. Set this to `true` to remove that default virtualhost configuration file.
 
+    apache_global_vhost_settings: |
+      DirectoryIndex index.php index.html
+      # Add other global settings on subsequent lines.
+
+You can add or override global Apache configuration settings in the role-provided vhosts file (assuming `apache_create_vhosts` is true) using this variable. By default it only sets the DirectoryIndex configuration.
+
     apache_vhosts:
       # Additional optional properties: 'serveradmin, serveralias, extra_parameters'.
       - servername: "local.dev"
@@ -79,6 +85,10 @@ The SSL protocols and cipher suites that are used/allowed when clients make secu
       - [platform-specific]
 
 The list of packages to be installed. This defaults to a set of platform-specific packages for RedHat or Debian-based systems (see `vars/RedHat.yml` and `vars/Debian.yml` for the default values).
+
+    apache_state: started
+
+Set initial Apache daemon state to be enforced when this role is run. This should generally remain `started`, but you can set it to `stopped` if you need to fix the Apache config during a playbook run or otherwise would not like Apache started at the time this role is run.
 
 ## Dependencies
 

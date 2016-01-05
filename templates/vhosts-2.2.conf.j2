@@ -1,5 +1,4 @@
-
-DirectoryIndex index.php index.html
+{{ apache_global_vhost_settings }}
 
 {# Set up VirtualHosts #}
 {% for vhost in apache_vhosts %}
@@ -8,17 +7,21 @@ DirectoryIndex index.php index.html
 {% if vhost.serveralias is defined %}
   ServerAlias {{ vhost.serveralias }}
 {% endif %}
+{% if vhost.documentroot is defined %}
   DocumentRoot {{ vhost.documentroot }}
+{% endif %}
 
 {% if vhost.serveradmin is defined %}
   ServerAdmin {{ vhost.serveradmin }}
 {% endif %}
+{% if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
     AllowOverride All
     Options -Indexes FollowSymLinks
     Order allow,deny
     Allow from all
   </Directory>
+{% endif %}
 {% if vhost.extra_parameters is defined %}
   {{ vhost.extra_parameters }}
 {% endif %}
@@ -33,7 +36,9 @@ DirectoryIndex index.php index.html
 {% if vhost.serveralias is defined %}
   ServerAlias {{ vhost.serveralias }}
 {% endif %}
+{% if vhost.documentroot is defined %}
   DocumentRoot {{ vhost.documentroot }}
+{% endif %}
 
   SSLEngine on
   SSLCipherSuite {{ apache_ssl_cipher_suite }}
@@ -48,12 +53,14 @@ DirectoryIndex index.php index.html
 {% if vhost.serveradmin is defined %}
   ServerAdmin {{ vhost.serveradmin }}
 {% endif %}
+{% if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
     AllowOverride All
     Options -Indexes FollowSymLinks
     Order allow,deny
     Allow from all
   </Directory>
+{% endif %}
 {% if vhost.extra_parameters is defined %}
   {{ vhost.extra_parameters }}
 {% endif %}
